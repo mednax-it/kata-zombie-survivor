@@ -2,6 +2,12 @@ class Survivor:
     def __init__(self, name: str):
         self.name = name
         self.wounds = 0
+        self.equipment_in_hand: list[str] = ["Baseball bat", "Frying pan"]
+        self.equipment_in_reserve: list[str] = [
+            "Bottled water",
+            "Katana",
+            "Pistol",
+        ]
         self._actions_remaining = 3
 
     def is_alive(self) -> bool:
