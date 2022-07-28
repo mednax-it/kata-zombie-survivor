@@ -23,5 +23,11 @@ class TestSurvivor:
         self.survivor.actions_remaining = 5
         assert self.survivor.actions_remaining == 5
 
-    def test_add_equipment(self):
-        pass
+    def test_wound_decreases_equipment_carried(self):
+        initial_count = len(self.survivor.equipment_in_hand) + len(
+            self.survivor.equipment_in_reserve
+        )
+        self.survivor.wound = 1
+        assert initial_count - 1 == len(self.survivor.equipment_in_hand) + len(
+            self.survivor.equipment_in_reserve
+        )
