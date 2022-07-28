@@ -18,3 +18,6 @@ class Survivor:
 
     def equip(self, item: str):
         self.equipment.append(item)
+
+    def has_capacity(self) -> bool:
+        return len(self.equipment) < 5
