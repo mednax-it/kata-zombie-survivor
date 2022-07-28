@@ -21,3 +21,9 @@ class TestSurvivor:
         current_length = len(self.survivor.equipment)
         self.survivor.equip("Baseball bat")
         assert len(self.survivor.equipment) == current_length + 1
+
+    def test_can_not_equip_above_capacity(self):
+        current_length = len(self.survivor.equipment)
+        for _ in range(5):
+            self.survivor.equip("Baseball bat")
+        assert not self.survivor.has_capacity()
