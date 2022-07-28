@@ -16,3 +16,8 @@ class TestSurvivor:
     def test_setter(self):
         self.survivor.actions_remaining = 5
         assert self.survivor.actions_remaining == 5
+
+    def test_can_add_equipment(self):
+        current_length = len(self.survivor.equipment)
+        self.survivor.equip("Baseball bat")
+        assert len(self.survivor.equipment) == current_length + 1
