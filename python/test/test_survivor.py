@@ -18,13 +18,13 @@ class TestSurvivor:
         assert self.survivor.actions_remaining == 5
 
     def test_can_add_equipment(self):
-        expected_capacity = self.survivor.capacity - 1
+        expected_space_remaining = self.survivor.space_remaining - 1
         self.survivor.equip("Baseball bat")
-        assert self.survivor.capacity == expected_capacity
+        assert self.survivor.space_remaining == expected_space_remaining
 
-    def test_can_not_equip_above_capacity(self):
+    def test_can_not_equip_above_limit(self):
         for _ in range(5):
             self.survivor.equip("Baseball bat")
-        expected_capacity = self.survivor.capacity
+        expected_space_remaining = self.survivor.space_remaining
         self.survivor.equip("Baseball bat")
-        assert self.survivor.capacity == expected_capacity
+        assert self.survivor.space_remaining == expected_space_remaining

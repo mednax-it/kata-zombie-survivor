@@ -19,18 +19,17 @@ class Survivor:
     def actions_remaining(self, num: int):
         self._actions_remaining = num
 
-    # TODO: Is capacity the best term for this property?
-    # TODO: Need to differentiate between "in hand" and "in reserve"
     # TODO: Need to decrement when wounded
+    # TODO: Need to differentiate between "in hand" and "in reserve"
     @property
-    def capacity(self) -> int:
+    def space_remaining(self) -> int:
         return MAX_ITEMS - len(self._equipment)
 
     def equip(self, item: str):
-        if not self._has_capacity():
+        if not self._has_space_remaining():
             return
 
         self._equipment.append(item)
 
-    def _has_capacity(self) -> bool:
-        return len(self._equipment) < 5
+    def _has_space_remaining(self) -> bool:
+        return len(self._equipment) < MAX_ITEMS
