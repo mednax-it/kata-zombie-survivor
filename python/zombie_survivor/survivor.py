@@ -20,7 +20,9 @@ class Survivor:
     def actions_remaining(self, num: int):
         self._actions_remaining = num
 
-    # TODO: Need to differentiate between "in hand" and "in reserve"
+    # TODO: Need to differentiate between "in hand" and "in reserve".
+    # TODO: Is wound() violating SRP by mutating two properties? Should
+    # space_remaining() just use the wound_count in its caclulations?
     @property
     def space_remaining(self) -> int:
         return self._max_items - len(self._equipment)
