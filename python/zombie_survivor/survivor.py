@@ -1,4 +1,4 @@
-INITIAL_EQUIPMENT_LIMIT = 5
+EQUIPMENT_LIMIT = 5
 
 class Survivor:
     def __init__(self, name: str):
@@ -20,7 +20,7 @@ class Survivor:
 
     @property
     def space_remaining(self) -> int:
-        return INITIAL_EQUIPMENT_LIMIT - len(self._equipment) - self.wound_count
+        return EQUIPMENT_LIMIT - len(self._equipment) - self.wound_count
     
     @property
     def wound_count(self) -> int:
