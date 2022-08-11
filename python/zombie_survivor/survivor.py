@@ -1,5 +1,8 @@
 EQUIPMENT_LIMIT = 5
 
+class NoSpaceRemainingError(Exception):
+    pass
+
 class Survivor:
     def __init__(self, name: str):
         self.name = name
@@ -26,7 +29,12 @@ class Survivor:
     def wound_count(self) -> int:
         return self._wound_count
 
+    def has_space_remaining(self) -> bool:
+        return self.space_remaining > 0
+
     def pick_up(self, item: str):
+        if not self.has_space_remaining():
+            raise NoSpaceRemainingError
         self._equipment.append(item)
 
     def wound(self):
