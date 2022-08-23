@@ -1,14 +1,19 @@
+from typing import List
+
+
 EQUIPMENT_LIMIT = 5
+
 
 class NoSpaceRemainingError(Exception):
     pass
+
 
 class Survivor:
     def __init__(self, name: str):
         self.name = name
         self._wound_count = 0
         self._actions_remaining = 3
-        self._equipment = []
+        self._equipment: List[str] = []
 
     def is_alive(self) -> bool:
         return self.wound_count < 2
@@ -24,7 +29,7 @@ class Survivor:
     @property
     def space_remaining(self) -> int:
         return EQUIPMENT_LIMIT - len(self._equipment) - self.wound_count
-    
+
     @property
     def wound_count(self) -> int:
         return self._wound_count
