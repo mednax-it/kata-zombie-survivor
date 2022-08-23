@@ -20,3 +20,9 @@ class TestGame:
         self.game.add_survivor(Survivor("Kyle the Dreadful"))
         with pytest.raises(DuplicateNameError):
             self.game.add_survivor(Survivor("Kyle the Dreadful"))
+
+    def test_game_ends_when_no_survivors(self):
+        survivor = Survivor("Gabriel le Terrible")
+        self.game.add_survivor(survivor)
+        self.game.kill_survivor(survivor)
+        assert self.game.is_finished
