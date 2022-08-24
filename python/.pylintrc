@@ -1,0 +1,15 @@
+[MAIN]
+load-plugins=pylint_pytest
+
+[REPORTS]
+output-format=colorized
+
+[FORMAT]
+max-line-length=88
+
+[MESSAGES CONTROL]
+disable=
+    missing-function-docstring,
+    missing-class-docstring,
+    missing-module-docstring,
+    too-few-public-methods

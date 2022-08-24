@@ -21,18 +21,3 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
-
-[tool.pylint.master]
-output-format = "colorized"
-load-plugins = "pylint_pytest"
-
-[tool.pylint.format]
-max-line-length = 88
-
-[tool.pylint.messages_control]
-disable = [
-    "missing-function-docstring",
-    "missing-class-docstring",
-    "missing-module-docstring",
-    "too-few-public-methods",
-]
