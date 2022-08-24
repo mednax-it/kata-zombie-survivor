@@ -5,6 +5,8 @@ from zombie_survivor.survivor import Survivor
 
 
 class TestGame:
+    game: Game
+
     def setup(self):
         self.game = Game()
 
