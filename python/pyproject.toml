@@ -6,6 +6,7 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "~3.9.5"
+pylint-pytest = "^1.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
@@ -20,6 +21,10 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
+
+[tool.pylint.master]
+output-format = "colorized"
+load-plugins = "pylint_pytest"
 
 [tool.pylint.format]
 max-line-length = 88
