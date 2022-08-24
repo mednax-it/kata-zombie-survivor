@@ -2,6 +2,8 @@ from zombie_survivor.survivor import Survivor
 
 
 class TestSurvivor:
+    survivor: Survivor
+
     def setup(self):
         self.survivor = Survivor("Rob Zombie")
 
