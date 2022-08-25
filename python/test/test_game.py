@@ -10,8 +10,19 @@ class TestGame:
     def setup(self):
         self.game = Game()
 
-    def test_game_started_with_no_survivors(self):
+    def test_game_initialized_with_no_survivors(self):
         assert len(self.game.survivors) == 0
+
+    def test_game_has_started(self):
+        self.game.add_survivor(Survivor("Rob Zombie"))
+        assert self.game.is_started()
+
+    def test_game_when_initialized_is_not_finished(self):
+        assert not self.game.is_finished()
+
+    def test_game_when_started_is_not_finished(self):
+        self.game.add_survivor(Survivor("Rob Zombie"))
+        assert not self.game.is_finished()
 
     def test_game_can_add_survivors(self):
         expected_survivor_count = len(self.game.survivors) + 1
@@ -26,5 +37,6 @@ class TestGame:
     def test_game_ends_when_no_survivors(self):
         survivor = Survivor("Gabriel le Terrible")
         self.game.add_survivor(survivor)
-        self.game.kill_survivor(survivor)
-        assert self.game.is_finished
+        while survivor.is_alive():
+            survivor.wound()
+        assert self.game.is_finished()

@@ -20,14 +20,15 @@ class Game:
         return tuple(self._survivors)
 
     def add_survivor(self, survivor: Survivor):
-        if survivor.name in [s.name for s in self._survivors]:
+        if survivor.name in [s.name for s in self.survivors]:
             raise DuplicateNameError
         self._survivors.append(survivor)
 
-    def kill_survivor(self, survivor: Survivor):
-        if survivor not in self._survivors:
-            raise SurvivorNotFoundError
-        self._survivors.remove(survivor)
+    def is_started(self) -> bool:
+        return len(self._survivors) > 0
 
     def is_finished(self) -> bool:
-        return len(self._survivors) == 0
+        return self.is_started() and self._all_survivors_dead()
+
+    def _all_survivors_dead(self) -> bool:
+        return all(not s.is_alive() for s in self.survivors)
