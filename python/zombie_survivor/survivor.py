@@ -1,7 +1,13 @@
+from enum import Enum
 from typing import List
 
 
 EQUIPMENT_LIMIT = 5
+
+
+class Level(Enum):
+    BLUE = 1
+    YELLOW = 2
 
 
 class NoSpaceRemainingError(Exception):
@@ -14,6 +20,8 @@ class Survivor:
         self._wound_count = 0
         self._actions_remaining = 3
         self._equipment: List[str] = []
+        self.experience = 0
+        self.level = Level.BLUE
 
     def is_alive(self) -> bool:
         return self.wound_count < 2
@@ -44,3 +52,7 @@ class Survivor:
 
     def wound(self):
         self._wound_count += 1
+
+    def kill_zombie(self):
+        self.experience = self.experience + 1
+        self.level = Level.YELLOW

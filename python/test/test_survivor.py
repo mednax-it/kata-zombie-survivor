@@ -1,6 +1,11 @@
 import pytest
 
-from zombie_survivor.survivor import Survivor, NoSpaceRemainingError, EQUIPMENT_LIMIT
+from zombie_survivor.survivor import (
+    Level,
+    Survivor,
+    NoSpaceRemainingError,
+    EQUIPMENT_LIMIT,
+)
 
 
 class TestSurvivor:
@@ -15,6 +20,8 @@ class TestSurvivor:
         assert self.survivor.is_alive()
         assert self.survivor.actions_remaining == 3
         assert self.survivor.space_remaining == EQUIPMENT_LIMIT
+        assert self.survivor.experience == 0
+        assert self.survivor.level == Level.BLUE
 
     def test_setter(self):
         self.survivor.actions_remaining = 5
@@ -40,3 +47,13 @@ class TestSurvivor:
         expected_space_remaining = self.survivor.space_remaining - 1
         self.survivor.wound()
         assert self.survivor.space_remaining == expected_space_remaining
+
+    def test_killing_a_zombie_increments_experience(self):
+        expected_experience = self.survivor.experience + 1
+        self.survivor.kill_zombie()
+        assert self.survivor.experience == expected_experience
+
+    def test_can_level_up_to_yellow(self):
+        self.survivor.experience = 6
+        self.survivor.kill_zombie()
+        assert self.survivor.level == Level.YELLOW
