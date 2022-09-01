@@ -1,5 +1,7 @@
 from typing import Sequence
 
+from zombie_survivor.level import Level
+
 from .survivor import Survivor
 
 
@@ -14,6 +16,7 @@ class SurvivorNotFoundError(Exception):
 class Game:
     def __init__(self):
         self._survivors = []
+        self.level = Level.BLUE
 
     @property
     def survivors(self) -> Sequence[Survivor]:

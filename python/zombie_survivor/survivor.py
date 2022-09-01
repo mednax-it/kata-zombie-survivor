@@ -1,15 +1,9 @@
-from enum import Enum
 from typing import List
+
+from zombie_survivor.level import Level
 
 
 EQUIPMENT_LIMIT = 5
-
-
-class Level(Enum):
-    BLUE = 1
-    YELLOW = 2
-    ORANGE = 3
-    RED = 4
 
 
 class NoSpaceRemainingError(Exception):

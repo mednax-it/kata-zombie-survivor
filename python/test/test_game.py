@@ -1,6 +1,7 @@
 import pytest
 
 from zombie_survivor.game import DuplicateNameError, Game
+from zombie_survivor.level import Level
 from zombie_survivor.survivor import Survivor
 
 
@@ -12,6 +13,7 @@ class TestGame:
 
     def test_game_initialized_with_no_survivors(self):
         assert len(self.game.survivors) == 0
+        assert self.game.level == Level.BLUE
 
     def test_game_has_started(self):
         self.game.add_survivor(Survivor("Rob Zombie"))

@@ -1,7 +1,7 @@
 import pytest
+from zombie_survivor.level import Level
 
 from zombie_survivor.survivor import (
-    Level,
     Survivor,
     NoSpaceRemainingError,
     EQUIPMENT_LIMIT,
