@@ -53,7 +53,39 @@ class TestSurvivor:
         self.survivor.kill_zombie()
         assert self.survivor.experience == expected_experience
 
+    def test_remains_at_level_blue_initially(self):
+        for _ in range(6):
+            assert self.survivor.level == Level.BLUE
+            self.survivor.kill_zombie()
+            assert self.survivor.level == Level.BLUE
+
     def test_can_level_up_to_yellow(self):
         self.survivor.experience = 6
         self.survivor.kill_zombie()
         assert self.survivor.level == Level.YELLOW
+
+    def test_remains_at_level_yellow_until_boundary_reached(self):
+        self.survivor.experience = 7
+        self.survivor.level = Level.YELLOW
+        for _ in range(11):
+            assert self.survivor.level == Level.YELLOW
+            self.survivor.kill_zombie()
+            assert self.survivor.level == Level.YELLOW
+
+    def test_can_level_up_to_orange(self):
+        self.survivor.experience = 18
+        self.survivor.kill_zombie()
+        assert self.survivor.level == Level.ORANGE
+
+    def test_remains_at_level_orange_until_boundary_reached(self):
+        self.survivor.experience = 19
+        self.survivor.level = Level.ORANGE
+        for _ in range(23):
+            assert self.survivor.level == Level.ORANGE
+            self.survivor.kill_zombie()
+            assert self.survivor.level == Level.ORANGE
+
+    def test_can_level_up_to_red(self):
+        self.survivor.experience = 42
+        self.survivor.kill_zombie()
+        assert self.survivor.level == Level.RED

@@ -8,6 +8,8 @@ EQUIPMENT_LIMIT = 5
 class Level(Enum):
     BLUE = 1
     YELLOW = 2
+    ORANGE = 3
+    RED = 4
 
 
 class NoSpaceRemainingError(Exception):
@@ -55,4 +57,9 @@ class Survivor:
 
     def kill_zombie(self):
         self.experience = self.experience + 1
-        self.level = Level.YELLOW
+        if self.experience > 6:
+            self.level = Level.YELLOW
+        if self.experience > 18:
+            self.level = Level.ORANGE
+        if self.experience > 42:
+            self.level = Level.RED
