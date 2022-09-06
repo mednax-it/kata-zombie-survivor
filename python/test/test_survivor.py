@@ -2,6 +2,8 @@ import pytest
 
 from zombie_survivor.survivor import Survivor, NoSpaceRemainingError, EQUIPMENT_LIMIT
 
+BASEBALL_BAT = "baseball bat"
+
 
 class TestSurvivor:
     survivor: Survivor
@@ -22,14 +24,14 @@ class TestSurvivor:
 
     def test_can_pick_up_equipment(self):
         expected_space_remaining = self.survivor.space_remaining - 1
-        self.survivor.pick_up("baseball bat")
+        self.survivor.pick_up(BASEBALL_BAT)
         assert self.survivor.space_remaining == expected_space_remaining
 
     def test_can_not_pick_up_too_much_equipment(self):
         for _ in range(EQUIPMENT_LIMIT):
-            self.survivor.pick_up("baseball bat")
+            self.survivor.pick_up(BASEBALL_BAT)
         with pytest.raises(NoSpaceRemainingError):
-            self.survivor.pick_up("baseball bat")
+            self.survivor.pick_up(BASEBALL_BAT)
 
     def test_can_be_wounded(self):
         expected_wound_count = self.survivor.wound_count + 1
