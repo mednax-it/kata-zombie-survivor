@@ -1,5 +1,6 @@
 import pytest
 
+from zombie_survivor.level import Level
 from zombie_survivor.survivor import Survivor, NoSpaceRemainingError, EQUIPMENT_LIMIT
 
 BASEBALL_BAT = "baseball bat"
@@ -17,6 +18,8 @@ class TestSurvivor:
         assert self.survivor.is_alive()
         assert self.survivor.actions_remaining == 3
         assert self.survivor.space_remaining == EQUIPMENT_LIMIT
+        assert self.survivor.experience == 0
+        assert self.survivor.level == Level.BLUE
 
     def test_setter(self):
         self.survivor.actions_remaining = 5
