@@ -1,5 +1,7 @@
 from typing import List
 
+from .level import Level
+
 
 EQUIPMENT_LIMIT = 5
 
@@ -14,6 +16,8 @@ class Survivor:
         self._wound_count = 0
         self._actions_remaining = 3
         self._equipment: List[str] = []
+        self._experience = 0
+        self._level = Level.BLUE
 
     def is_alive(self) -> bool:
         return self.wound_count < 2
@@ -33,6 +37,14 @@ class Survivor:
     @property
     def wound_count(self) -> int:
         return self._wound_count
+
+    @property
+    def experience(self) -> int:
+        return self._experience
+
+    @property
+    def level(self) -> Level:
+        return self._level
 
     def has_space_remaining(self) -> bool:
         return self.space_remaining > 0
