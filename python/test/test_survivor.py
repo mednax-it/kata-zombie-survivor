@@ -45,3 +45,8 @@ class TestSurvivor:
         expected_space_remaining = self.survivor.space_remaining - 1
         self.survivor.wound()
         assert self.survivor.space_remaining == expected_space_remaining
+
+    def test_killing_a_zombie_increments_experience(self):
+        expected_experience = self.survivor.experience + 1
+        self.survivor.kill_zombie()
+        assert self.survivor.experience == expected_experience
