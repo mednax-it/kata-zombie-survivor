@@ -56,3 +56,6 @@ class Survivor:
 
     def wound(self):
         self._wound_count += 1
+
+    def kill_zombie(self):
+        self._experience += 1
