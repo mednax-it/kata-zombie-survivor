@@ -50,3 +50,20 @@ class TestSurvivor:
         expected_experience = self.survivor.experience + 1
         self.survivor.kill_zombie()
         assert self.survivor.experience == expected_experience
+
+    @pytest.mark.parametrize(
+        ["zombies_killed", "expected_level"],
+        [
+            *[(kill_count, Level.BLUE) for kill_count in range(0, 7)],
+            *[(kill_count, Level.YELLOW) for kill_count in range(7, 19)],
+            *[(kill_count, Level.ORANGE) for kill_count in range(19, 43)],
+            (43, Level.RED),
+        ],
+    )
+    def test_experience_progression_matches_expected(
+        self, zombies_killed, expected_level
+    ):
+        for _ in range(zombies_killed):
+            self.survivor.kill_zombie()
+
+        assert self.survivor.level == expected_level

@@ -59,3 +59,9 @@ class Survivor:
 
     def kill_zombie(self):
         self._experience += 1
+        if self._experience > 6:
+            self._level = Level.YELLOW
+        if self._experience > 18:
+            self._level = Level.ORANGE
+        if self._experience > 42:
+            self._level = Level.RED
