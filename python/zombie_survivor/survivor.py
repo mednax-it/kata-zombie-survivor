@@ -44,7 +44,14 @@ class Survivor:
 
     @property
     def level(self) -> Level:
-        return self._level
+        experience = self._experience
+        if experience > 42:
+            return Level.RED
+        if experience > 18:
+            return Level.ORANGE
+        if experience > 6:
+            return Level.YELLOW
+        return Level.BLUE
 
     def has_space_remaining(self) -> bool:
         return self.space_remaining > 0
@@ -59,9 +66,3 @@ class Survivor:
 
     def kill_zombie(self):
         self._experience += 1
-        if self._experience > 6:
-            self._level = Level.YELLOW
-        if self._experience > 18:
-            self._level = Level.ORANGE
-        if self._experience > 42:
-            self._level = Level.RED
