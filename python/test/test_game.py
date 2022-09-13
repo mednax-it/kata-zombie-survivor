@@ -54,3 +54,12 @@ class TestGame:
             grover.kill_zombie()
         assert self.game.level != oscar.level
         assert self.game.level == grover.level
+
+    def test_game_level_maxes_out(self):
+        survivor = Survivor("Godzilla")
+        self.game.add_survivor(survivor)
+        while survivor.level < Level.RED:
+            survivor.kill_zombie()
+        assert self.game.level == Level.RED
+        survivor.kill_zombie()
+        assert self.game.level == Level.RED
