@@ -17,7 +17,6 @@ class Survivor:
         self._actions_remaining = 3
         self._equipment: List[str] = []
         self._experience = 0
-        self._level = Level.BLUE
 
     def is_alive(self) -> bool:
         return self.wound_count < 2
