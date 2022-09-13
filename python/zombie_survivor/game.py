@@ -16,7 +16,6 @@ class SurvivorNotFoundError(Exception):
 class Game:
     def __init__(self):
         self._survivors = []
-        self._level = Level.BLUE
 
     @property
     def survivors(self) -> Sequence[Survivor]:
@@ -24,7 +23,7 @@ class Game:
 
     @property
     def level(self) -> Level:
-        return self._level
+        return max((s.level for s in self.survivors), default=Level.BLUE)
 
     def add_survivor(self, survivor: Survivor):
         if survivor.name in [s.name for s in self.survivors]:

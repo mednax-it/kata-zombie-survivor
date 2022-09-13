@@ -42,3 +42,15 @@ class TestGame:
         while survivor.is_alive():
             survivor.wound()
         assert self.game.is_finished()
+
+    def test_game_level_equals_highest_survivor_level(self):
+        oscar = Survivor("Oscar the Grouch")
+        grover = Survivor("Grover")
+        self.game.add_survivor(oscar)
+        self.game.add_survivor(grover)
+        while oscar.level < Level.YELLOW:
+            oscar.kill_zombie()
+        while grover.level < Level.ORANGE:
+            grover.kill_zombie()
+        assert self.game.level != oscar.level
+        assert self.game.level == grover.level
