@@ -54,7 +54,7 @@ As Survivors overcome zombies, they gain experience.
 
 The Game includes a running history of events that have taken place as it has been played. Managing game history is a Game responsibility.
 
-- A Game's **History** begins by recording the time the Game began.
+- A Game's History begins by recording the time the Game began.
 - A Game's History notes that a Survivor has been added to the Game.
 - A Game's History notes that a Survivor acquires a piece of Equipment.
 - A Game's History notes that a Survivor is wounded.
