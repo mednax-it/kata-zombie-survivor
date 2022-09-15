@@ -16,6 +16,11 @@ class SurvivorNotFoundError(Exception):
 class Game:
     def __init__(self):
         self._survivors = []
+        self._history = []
+
+    @property
+    def history(self) -> Sequence[str]:
+        return self._history
 
     @property
     def survivors(self) -> Sequence[Survivor]:
