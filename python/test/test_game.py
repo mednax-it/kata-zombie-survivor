@@ -14,6 +14,7 @@ class TestGame:
     def test_game_initialized_properly(self):
         assert len(self.game.survivors) == 0
         assert self.game.level == Level.BLUE
+        assert self.game.history == []
 
     def test_game_has_started(self):
         self.game.add_survivor(Survivor("Rob Zombie"))
