@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Sequence
 
 from zombie_survivor.level import Level
@@ -14,9 +15,9 @@ class SurvivorNotFoundError(Exception):
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, now=datetime.utcnow()):
         self._survivors = []
-        self._history = []
+        self._history = [f"The game begins at: {now}"]
 
     @property
     def history(self) -> Sequence[str]:
