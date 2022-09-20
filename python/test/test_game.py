@@ -68,3 +68,8 @@ class TestGame:
         assert self.game.level == Level.RED
         survivor.kill_zombie()
         assert self.game.level == Level.RED
+
+    def test_game_history_records_added_survivor(self):
+        survivor = Survivor("Peter the Rabbit")
+        self.game.add_survivor(survivor)
+        assert f"The game adds a survivor: {survivor.name}" in self.game.history

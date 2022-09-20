@@ -35,6 +35,7 @@ class Game:
         if survivor.name in [s.name for s in self.survivors]:
             raise DuplicateNameError
         self._survivors.append(survivor)
+        self._history.append(f"The game adds a survivor: {survivor.name}")
 
     def is_started(self) -> bool:
         return len(self._survivors) > 0
