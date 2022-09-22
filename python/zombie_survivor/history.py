@@ -13,3 +13,9 @@ class History:
 
     def pop(self) -> str:
         return self._records.pop()
+
+    def reset(self):
+        self._records = []
+
+
+history = History()

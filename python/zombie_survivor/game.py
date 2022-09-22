@@ -1,8 +1,19 @@
 from datetime import datetime
 from typing import Sequence
-from .history import History
+
+from decorator import decorator
+
 from .level import Level
 from .survivor import Survivor
+from .history import history
+
+
+@decorator
+def survivor_added(func, *args, **kwargs):
+    _, survivor = args
+    value = func(*args, **kwargs)
+    history.push(f"The game adds a survivor: {survivor.name}")
+    return value
 
 
 class DuplicateNameError(Exception):
@@ -16,12 +27,7 @@ class SurvivorNotFoundError(Exception):
 class Game:
     def __init__(self, now=datetime.utcnow()):
         self._survivors = []
-        self._history = History()
-        self._history.push(f"The game begins at: {now}")
-
-    @property
-    def history(self) -> Sequence[str]:
-        return self._history
+        history.push(f"The game begins at: {now}")
 
     @property
     def survivors(self) -> Sequence[Survivor]:
@@ -31,12 +37,11 @@ class Game:
     def level(self) -> Level:
         return max((s.level for s in self.survivors), default=Level.BLUE)
 
-    # @history.add_survivor
+    @survivor_added
     def add_survivor(self, survivor: Survivor):
         if survivor.name in [s.name for s in self.survivors]:
             raise DuplicateNameError
         self._survivors.append(survivor)
-        self._history.push(f"The game adds a survivor: {survivor.name}")
 
     def is_started(self) -> bool:
         return len(self._survivors) > 0
