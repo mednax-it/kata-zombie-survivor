@@ -7,19 +7,17 @@ from zombie_survivor.level import Level
 from zombie_survivor.survivor import Survivor
 from zombie_survivor.history import history
 
-NOW = datetime.utcnow()
-
 
 class TestGame:
     game: Game
 
     def setup(self):
-        self.game = Game(now=NOW)
+        self.game = Game()
 
     def test_game_initialized_properly(self):
         assert len(self.game.survivors) == 0
         assert self.game.level == Level.BLUE
-        assert history.pop() == f"The game begins at: {NOW}"
+        assert history.pop().startswith("The game begins at: ")
 
     def test_game_has_started(self):
         self.game.add_survivor(Survivor("Rob Zombie"))

@@ -1,5 +1,7 @@
 from typing import List
 
+from decorator import decorator
+
 
 class History:
     def __init__(self):
@@ -8,8 +10,8 @@ class History:
     def __len__(self):
         return len(self._records)
 
-    def push(self, event: str):
-        self._records.append(event)
+    def push(self, record: str):
+        self._records.append(record)
 
     def pop(self) -> str:
         return self._records.pop()
@@ -19,3 +21,13 @@ class History:
 
 
 history = History()
+
+
+def event(tmpl, values):
+    @decorator
+    def inner(func, *args, **kwargs):
+        value = func(*args, **kwargs)
+        history.push(tmpl.format(**values(args)))
+        return value
+
+    return inner
