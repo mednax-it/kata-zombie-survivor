@@ -1,24 +1,21 @@
-from datetime import datetime
-
 import pytest
 
 from zombie_survivor.game import DuplicateNameError, Game
 from zombie_survivor.level import Level
 from zombie_survivor.survivor import Survivor
-
-NOW = datetime.utcnow()
+from zombie_survivor.history import history
 
 
 class TestGame:
     game: Game
 
     def setup(self):
-        self.game = Game(now=NOW)
+        self.game = Game()
 
     def test_game_initialized_properly(self):
         assert len(self.game.survivors) == 0
         assert self.game.level == Level.BLUE
-        assert self.game.history == [f"The game begins at: {NOW}"]
+        assert history.pop().startswith("The game begins at: ")
 
     def test_game_has_started(self):
         self.game.add_survivor(Survivor("Rob Zombie"))
@@ -72,4 +69,4 @@ class TestGame:
     def test_game_history_records_added_survivor(self):
         survivor = Survivor("Peter the Rabbit")
         self.game.add_survivor(survivor)
-        assert f"The game adds a survivor: {survivor.name}" in self.game.history
+        assert f"The game adds a survivor: {survivor.name}" in history
