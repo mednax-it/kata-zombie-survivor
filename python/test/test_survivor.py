@@ -2,6 +2,7 @@ import pytest
 
 from zombie_survivor.level import Level
 from zombie_survivor.survivor import Survivor, NoSpaceRemainingError, EQUIPMENT_LIMIT
+from zombie_survivor.history import history
 
 BASEBALL_BAT = "baseball bat"
 
@@ -67,3 +68,11 @@ class TestSurvivor:
             self.survivor.kill_zombie()
 
         assert self.survivor.level == expected_level
+
+    def test_brand_new_survivor_has_empty_history(self):
+        assert history.records_for(self.survivor) == []
+
+    def test_picked_up_item_has_history_record(self):
+        self.survivor.pick_up('Baseball Bat')
+
+        assert history.records_for(self.survivor) == ["Survivor Rob Zombie picked up: Baseball Bat"]

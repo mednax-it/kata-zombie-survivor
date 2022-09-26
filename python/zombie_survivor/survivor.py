@@ -1,6 +1,7 @@
 from typing import List
 
 from .level import Level
+from .history import item_picked_up
 
 
 EQUIPMENT_LIMIT = 5
@@ -55,6 +56,7 @@ class Survivor:
     def has_space_remaining(self) -> bool:
         return self.space_remaining > 0
 
+    @item_picked_up
     def pick_up(self, item: str):
         if not self.has_space_remaining():
             raise NoSpaceRemainingError

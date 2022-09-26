@@ -3,7 +3,7 @@ from typing import Sequence
 
 from .level import Level
 from .survivor import Survivor
-from .history import event
+from .history import game_started, survivor_added, history
 
 
 class DuplicateNameError(Exception):
@@ -15,9 +15,7 @@ class SurvivorNotFoundError(Exception):
 
 
 class Game:
-    @event(
-        tmpl="The game begins at: {now}", values=lambda _: {"now": datetime.utcnow()}
-    )
+    @game_started
     def __init__(self):
         self._survivors = []
 
@@ -29,9 +27,11 @@ class Game:
     def level(self) -> Level:
         return max((s.level for s in self.survivors), default=Level.BLUE)
 
-    @event(
-        tmpl="The game adds a survivor: {name}", values=lambda a: {"name": a[1].name}
-    )
+    @property
+    def history(self) -> list[str]:
+        return history.records_for(self, *self.survivors)
+
+    @survivor_added
     def add_survivor(self, survivor: Survivor):
         if survivor.name in [s.name for s in self.survivors]:
             raise DuplicateNameError
