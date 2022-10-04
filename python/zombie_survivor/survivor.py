@@ -1,5 +1,7 @@
 from typing import List
 
+from zombie_survivor.history import historian
+
 from .level import Level
 
 
@@ -55,11 +57,13 @@ class Survivor:
     def has_space_remaining(self) -> bool:
         return self.space_remaining > 0
 
+    @historian.item_picked_up
     def pick_up(self, item: str):
         if not self.has_space_remaining():
             raise NoSpaceRemainingError
         self._equipment.append(item)
 
+    @historian.wounded
     def wound(self):
         self._wound_count += 1
 

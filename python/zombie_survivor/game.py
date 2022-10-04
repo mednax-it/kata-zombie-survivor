@@ -1,8 +1,7 @@
 from typing import Sequence
-from zombie_survivor.history import history
 
-from zombie_survivor.level import Level
-
+from .history import historian
+from .level import Level
 from .survivor import Survivor
 
 
@@ -15,6 +14,7 @@ class SurvivorNotFoundError(Exception):
 
 
 class Game:
+    @historian.game_started
     def __init__(self):
         self._survivors = []
 
@@ -26,11 +26,11 @@ class Game:
     def level(self) -> Level:
         return max((s.level for s in self.survivors), default=Level.BLUE)
 
+    @historian.survivor_added
     def add_survivor(self, survivor: Survivor):
         if survivor.name in [s.name for s in self.survivors]:
             raise DuplicateNameError
         self._survivors.append(survivor)
-        history.push(f"The game adds a survivor: {survivor.name}")
 
     def is_started(self) -> bool:
         return len(self._survivors) > 0
