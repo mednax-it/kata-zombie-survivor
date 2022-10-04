@@ -13,12 +13,11 @@ class TestGame:
     game: Game
 
     def setup(self):
-        self.game = Game(now=NOW)
+        self.game = Game()
 
     def test_game_initialized_properly(self):
         assert len(self.game.survivors) == 0
         assert self.game.level == Level.BLUE
-        assert self.game.history == [f"The game begins at: {NOW}"]
 
     def test_game_has_started(self):
         self.game.add_survivor(Survivor("Rob Zombie"))
@@ -68,8 +67,3 @@ class TestGame:
         assert self.game.level == Level.RED
         survivor.kill_zombie()
         assert self.game.level == Level.RED
-
-    def test_game_history_records_added_survivor(self):
-        survivor = Survivor("Peter the Rabbit")
-        self.game.add_survivor(survivor)
-        assert f"The game adds a survivor: {survivor.name}" in self.game.history

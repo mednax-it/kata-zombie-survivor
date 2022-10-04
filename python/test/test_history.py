@@ -2,6 +2,8 @@ from zombie_survivor.history import History
 
 
 class TestHistory:
+    history: History
+
     def setup(self):
         self.history = History()
 
