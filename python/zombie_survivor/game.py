@@ -1,5 +1,5 @@
-from datetime import datetime
 from typing import Sequence
+from zombie_survivor.history import history
 
 from zombie_survivor.level import Level
 
@@ -15,13 +15,8 @@ class SurvivorNotFoundError(Exception):
 
 
 class Game:
-    def __init__(self, now=datetime.utcnow()):
+    def __init__(self):
         self._survivors = []
-        self._history = [f"The game begins at: {now}"]
-
-    @property
-    def history(self) -> Sequence[str]:
-        return self._history
 
     @property
     def survivors(self) -> Sequence[Survivor]:
@@ -35,7 +30,7 @@ class Game:
         if survivor.name in [s.name for s in self.survivors]:
             raise DuplicateNameError
         self._survivors.append(survivor)
-        self._history.append(f"The game adds a survivor: {survivor.name}")
+        history.push(f"The game adds a survivor: {survivor.name}")
 
     def is_started(self) -> bool:
         return len(self._survivors) > 0
