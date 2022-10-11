@@ -3,5 +3,8 @@
   "python.linting.enabled": true,
   "python.formatting.provider": "black",
   "python.linting.pylintEnabled": true,
-  "python.analysis.extraPaths": ["python"]
+  "python.analysis.extraPaths": ["python"],
+  "python.testing.pytestArgs": ["python"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
 }

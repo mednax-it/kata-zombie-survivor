@@ -1,4 +1,5 @@
 from typing import List
+from zombie_survivor.auth import soldiers_only
 
 from zombie_survivor.history import historian
 
@@ -57,6 +58,7 @@ class Survivor:
     def has_space_remaining(self) -> bool:
         return self.space_remaining > 0
 
+    @soldiers_only
     @historian.item_picked_up
     def pick_up(self, item: str):
         if not self.has_space_remaining():

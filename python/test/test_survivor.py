@@ -1,4 +1,5 @@
 import pytest
+from zombie_survivor.auth import assign_role
 
 from zombie_survivor.level import Level
 from zombie_survivor.survivor import Survivor, NoSpaceRemainingError, EQUIPMENT_LIMIT
@@ -27,7 +28,8 @@ class TestSurvivor:
 
     def test_can_pick_up_equipment(self):
         expected_space_remaining = self.survivor.space_remaining - 1
-        self.survivor.pick_up(BASEBALL_BAT)
+        with assign_role(self.survivor, "soldier"):
+            self.survivor.pick_up(BASEBALL_BAT)
         assert self.survivor.space_remaining == expected_space_remaining
 
     def test_can_not_pick_up_too_much_equipment(self):

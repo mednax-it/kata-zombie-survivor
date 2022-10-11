@@ -1,4 +1,5 @@
-from zombie_survivor.history import History
+from zombie_survivor.history import Historian, History, historian, history
+from zombie_survivor.survivor import Survivor
 
 
 class TestHistory:
@@ -18,3 +19,40 @@ class TestHistory:
         assert self.history.pop() is None
         self.history.push(event)
         assert self.history.pop() == event
+
+
+class TestHistorian:
+    historian: Historian
+
+    def setup(self):
+        self.historian = Historian()
+
+    def test_records_wounded(self):
+        @historian.wounded
+        def test(_):
+            # Don't need to actually do anything
+            pass
+
+        survivor = Survivor(name="Fred")
+
+        test(survivor)
+
+        message = history.pop()
+        assert survivor.name in message
+        assert "is wounded" in message
+
+    def test_records_item_picked_up(self):
+        @historian.item_picked_up
+        def test(_, __):
+            # Don't need to actually do anything
+            pass
+
+        survivor = Survivor(name="Fred")
+        item = "baseball bat"
+
+        test(survivor, item)
+
+        message = history.pop()
+        assert survivor.name in message
+        assert item in message
+        assert "picked up" in message
