@@ -1,6 +1,6 @@
-from zombie_survivor.history import historian, History, history
-from zombie_survivor.survivor import Survivor
 from zombie_survivor.game import Game
+from zombie_survivor.history import History, historian, history
+from zombie_survivor.survivor import Survivor
 
 
 class TestHistory:

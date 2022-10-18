@@ -1,7 +1,6 @@
 import pytest
-
 from zombie_survivor.level import Level
-from zombie_survivor.survivor import Survivor, NoSpaceRemainingError, EQUIPMENT_LIMIT
+from zombie_survivor.survivor import EQUIPMENT_LIMIT, NoSpaceRemainingError, Survivor
 
 BASEBALL_BAT = "baseball bat"
 
