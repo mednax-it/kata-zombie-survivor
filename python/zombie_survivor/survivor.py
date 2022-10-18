@@ -6,6 +6,7 @@ from .level import Level
 
 
 EQUIPMENT_LIMIT = 5
+WOUND_LIMIT = 2
 
 
 class NoSpaceRemainingError(Exception):
@@ -21,7 +22,7 @@ class Survivor:
         self._experience = 0
 
     def is_alive(self) -> bool:
-        return self.wound_count < 2
+        return self.wound_count < WOUND_LIMIT
 
     @property
     def actions_remaining(self) -> int:
