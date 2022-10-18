@@ -35,7 +35,7 @@ class TestHistorian:
 
     def test_survivor_added(self):
         @historian.survivor_added
-        def test(*args, **kwargs):
+        def test(*_args, **_kwargs):
             # Don't need to do anything
             pass
 
@@ -50,7 +50,7 @@ class TestHistorian:
 
     def test_item_picked_up(self):
         @historian.item_picked_up
-        def test(*args, **kwargs):
+        def test(*_args, **_kwargs):
             # Don't need to do anything
             pass
 
@@ -66,7 +66,7 @@ class TestHistorian:
 
     def test_wounded(self):
         @historian.wounded
-        def test(*args, **kwargs):
+        def test(*_args, **_kwargs):
             # Don't need to do anything
             pass
 
