@@ -9,9 +9,10 @@ def test_history_messages():
     game.add_survivor(survivor)
     survivor.wound()
 
-    assert "wounded" in history.pop()
-    assert "adds a survivor" in history.pop()
-    assert "game begins" in history.pop()
+    assert len(history) == 3
+    assert "wounded" in history.current()
+    assert "adds a survivor" in history.back()
+    assert "game begins" in history.back()
 
 
 def test_survivors_die():

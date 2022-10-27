@@ -6,6 +6,7 @@ from decorator import decorator
 
 class History:
     def __init__(self):
+        self.index = 0
         self._history: List[str] = []
 
     def pop(self) -> Optional[str]:
@@ -15,6 +16,21 @@ class History:
 
     def push(self, event: str):
         self._history.append(event)
+        self.index = len(self) - 1
+
+    def clear(self):
+        self._history.clear()
+
+    def back(self) -> str:
+        self.index = max(self.index - 1, 0)
+        return self._history[self.index]
+
+    def forward(self) -> str:
+        self.index = min(self.index + 1, len(self) - 1)
+        return self._history[self.index]
+
+    def __len__(self):
+        return len(self._history)
 
 
 history = History()

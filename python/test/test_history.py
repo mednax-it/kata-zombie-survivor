@@ -9,8 +9,11 @@ class TestHistory:
     def setup(self):
         self.history = History()
 
+    def teardown(self):
+        self.history.clear()
+
     def test_can_be_initialized(self):
-        assert self.history
+        assert self.history is not None
 
     def test_returns_none_when_no_events(self):
         assert self.history.pop() is None
@@ -20,6 +23,22 @@ class TestHistory:
         assert self.history.pop() is None
         self.history.push(event)
         assert self.history.pop() == event
+
+    def test_returns_zero_length_when_no_items(self):
+        assert len(self.history) == 0
+
+    def test_returns_non_zero_length_with_items(self):
+        self.history.push("item 1")
+        assert len(self.history) == 1
+
+    def test_back_and_forward_traverse_non_destructively(self):
+        self.history.push("item 1")
+        self.history.push("item 2")
+
+        assert len(self.history) == 2
+        assert self.history.back() == "item 1"
+        assert len(self.history) == 2
+        assert self.history.forward() == "item 2"
 
 
 class TestHistorian:
