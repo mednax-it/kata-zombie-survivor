@@ -19,6 +19,8 @@ class TestSurvivor:
         assert self.survivor.space_remaining == EQUIPMENT_LIMIT
         assert self.survivor.experience == 0
         assert self.survivor.level == Level.BLUE
+        assert self.survivor.potential_skills == []
+        assert self.survivor.unlocked_skills == []
 
     def test_setter(self):
         self.survivor.actions_remaining = 5

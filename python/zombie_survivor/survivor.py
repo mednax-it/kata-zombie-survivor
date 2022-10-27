@@ -20,6 +20,8 @@ class Survivor:
         self._actions_remaining = 3
         self._equipment: List[str] = []
         self._experience = 0
+        self.potential_skills: List[str] = []
+        self.unlocked_skills: List[str] = []
 
     def is_alive(self) -> bool:
         return self.wound_count < WOUND_LIMIT
