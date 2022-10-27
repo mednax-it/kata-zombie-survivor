@@ -40,6 +40,14 @@ class TestHistory:
         assert len(self.history) == 2
         assert self.history.forward() == "item 2"
 
+    def test_current_reads_non_destructively(self):
+        item1 = "item 1"
+        self.history.push(item1)
+        expected_length = len(self.history)
+
+        assert item1 == self.history.current()
+        assert expected_length == len(self.history)
+
 
 class TestHistorian:
     def test_game_started(self):

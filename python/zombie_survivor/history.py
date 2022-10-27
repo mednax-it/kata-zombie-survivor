@@ -29,6 +29,9 @@ class History:
         self.index = min(self.index + 1, len(self) - 1)
         return self._history[self.index]
 
+    def current(self) -> str:
+        return self._history[self.index]
+
     def __len__(self):
         return len(self._history)
 
