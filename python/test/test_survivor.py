@@ -73,3 +73,4 @@ class TestSurvivor:
         while self.survivor.level != Level.YELLOW:
             self.survivor.kill_zombie()
         assert len(self.survivor.potential_skills) == 1
+        assert len(self.survivor.potential_skills) == 1

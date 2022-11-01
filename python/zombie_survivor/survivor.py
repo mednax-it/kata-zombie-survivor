@@ -25,8 +25,7 @@ class Survivor:
         self._actions_remaining = 3
         self._equipment: List[str] = []
         self._experience = 0
-        self.potential_skills: List[str] = []
-        self.unlocked_skills: List[str] = []
+        self.unlocked_skills: List[Skill] = []
 
     def is_alive(self) -> bool:
         return self.wound_count < WOUND_LIMIT
@@ -62,6 +61,13 @@ class Survivor:
             return Level.YELLOW
         return Level.BLUE
 
+    @property
+    def potential_skills(self) -> List[Skill]:
+        level = self.level
+        if level == Level.YELLOW:
+            return [Skill.PLUS_1_ACTION]
+        return []
+
     def has_space_remaining(self) -> bool:
         return self.space_remaining > 0
 
@@ -77,5 +83,3 @@ class Survivor:
 
     def kill_zombie(self):
         self._experience += 1
-        if self.level == Level.YELLOW:
-            self.potential_skills.append(Skill.PLUS_1_ACTION)
