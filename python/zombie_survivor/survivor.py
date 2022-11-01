@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import List
 
 from zombie_survivor.history import historian
@@ -7,6 +8,10 @@ from .level import Level
 
 EQUIPMENT_LIMIT = 5
 WOUND_LIMIT = 2
+
+
+class Skill(Enum):
+    PLUS_1_ACTION = "+1 Action"
 
 
 class NoSpaceRemainingError(Exception):
@@ -72,3 +77,5 @@ class Survivor:
 
     def kill_zombie(self):
         self._experience += 1
+        if self.level == Level.YELLOW:
+            self.potential_skills.append(Skill.PLUS_1_ACTION)
