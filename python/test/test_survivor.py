@@ -1,6 +1,11 @@
 import pytest
 from zombie_survivor.level import Level
-from zombie_survivor.survivor import EQUIPMENT_LIMIT, NoSpaceRemainingError, Survivor
+from zombie_survivor.survivor import (
+    Skill,
+    EQUIPMENT_LIMIT,
+    NoSpaceRemainingError,
+    Survivor,
+)
 
 BASEBALL_BAT = "baseball bat"
 
@@ -73,4 +78,10 @@ class TestSurvivor:
         while self.survivor.level != Level.YELLOW:
             self.survivor.kill_zombie()
         assert len(self.survivor.potential_skills) == 1
-        assert len(self.survivor.potential_skills) == 1
+        assert Skill.PLUS_1_ACTION == self.survivor.potential_skills[0]
+
+    def test_one_unlocked_skill_at_level_yellow(self):
+        while self.survivor.level != Level.YELLOW:
+            self.survivor.kill_zombie()
+        assert len(self.survivor.unlocked_skills) == 1
+        assert Skill.PLUS_1_ACTION == self.survivor.unlocked_skills[0]

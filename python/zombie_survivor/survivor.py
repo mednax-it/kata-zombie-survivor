@@ -25,7 +25,6 @@ class Survivor:
         self._actions_remaining = 3
         self._equipment: List[str] = []
         self._experience = 0
-        self.unlocked_skills: List[Skill] = []
 
     def is_alive(self) -> bool:
         return self.wound_count < WOUND_LIMIT
@@ -63,6 +62,13 @@ class Survivor:
 
     @property
     def potential_skills(self) -> List[Skill]:
+        level = self.level
+        if level == Level.YELLOW:
+            return [Skill.PLUS_1_ACTION]
+        return []
+
+    @property
+    def unlocked_skills(self) -> List[Skill]:
         level = self.level
         if level == Level.YELLOW:
             return [Skill.PLUS_1_ACTION]
