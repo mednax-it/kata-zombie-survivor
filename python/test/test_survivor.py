@@ -85,3 +85,16 @@ class TestSurvivor:
             self.survivor.kill_zombie()
         assert len(self.survivor.unlocked_skills) == 1
         assert Skill.PLUS_1_ACTION == self.survivor.unlocked_skills[0]
+
+    def test_additional_action_with_action_skill(self):
+        expected_actions_remaining = self.survivor.actions_remaining + 1
+        while Skill.PLUS_1_ACTION not in self.survivor.unlocked_skills:
+            self.survivor.kill_zombie()
+        assert expected_actions_remaining == self.survivor.actions_remaining
+
+    def test_action_skill_handles_no_actions_properly(self):
+        while Skill.PLUS_1_ACTION not in self.survivor.unlocked_skills:
+            self.survivor.kill_zombie()
+        self.survivor.actions_remaining = 0
+        assert self.survivor.actions_remaining == 1
+        assert self.survivor.actions_remaining == 0

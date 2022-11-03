@@ -31,7 +31,10 @@ class Survivor:
 
     @property
     def actions_remaining(self) -> int:
-        return self._actions_remaining
+        actions_remaining = self._actions_remaining
+        if Skill.PLUS_1_ACTION in self.unlocked_skills:
+            actions_remaining = actions_remaining + 1
+        return actions_remaining
 
     @actions_remaining.setter
     def actions_remaining(self, num: int):
