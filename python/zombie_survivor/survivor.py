@@ -8,6 +8,7 @@ from .level import Level
 
 EQUIPMENT_LIMIT = 5
 WOUND_LIMIT = 2
+ACTION_LIMIT = 3
 
 
 class Skill(Enum):
@@ -22,7 +23,7 @@ class Survivor:
     def __init__(self, name: str):
         self.name = name
         self._wound_count = 0
-        self._actions_remaining = 3
+        self._actions_taken = 0
         self._equipment: List[str] = []
         self._experience = 0
 
@@ -31,14 +32,19 @@ class Survivor:
 
     @property
     def actions_remaining(self) -> int:
-        actions_remaining = self._actions_remaining
-        if Skill.PLUS_1_ACTION in self.unlocked_skills:
-            actions_remaining = actions_remaining + 1
-        return actions_remaining
+        return max(self.action_limit - self._actions_taken, 0)
 
     @actions_remaining.setter
     def actions_remaining(self, num: int):
         self._actions_remaining = num
+
+    @property
+    def action_limit(self) -> int:
+        return (
+            ACTION_LIMIT + 1
+            if Skill.PLUS_1_ACTION in self.unlocked_skills
+            else ACTION_LIMIT
+        )
 
     @property
     def space_remaining(self) -> int:
@@ -92,3 +98,6 @@ class Survivor:
 
     def kill_zombie(self):
         self._experience += 1
+
+    def take_action(self):
+        self._actions_taken += 1

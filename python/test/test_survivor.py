@@ -20,16 +20,12 @@ class TestSurvivor:
         assert self.survivor.name == "Rob Zombie"
         assert self.survivor.wound_count == 0
         assert self.survivor.is_alive()
-        assert self.survivor.actions_remaining == 3
+        assert self.survivor.actions_remaining == self.survivor.action_limit
         assert self.survivor.space_remaining == EQUIPMENT_LIMIT
         assert self.survivor.experience == 0
         assert self.survivor.level == Level.BLUE
         assert self.survivor.potential_skills == []
         assert self.survivor.unlocked_skills == []
-
-    def test_setter(self):
-        self.survivor.actions_remaining = 5
-        assert self.survivor.actions_remaining == 5
 
     def test_can_pick_up_equipment(self):
         expected_space_remaining = self.survivor.space_remaining - 1
@@ -95,6 +91,7 @@ class TestSurvivor:
     def test_action_skill_handles_no_actions_properly(self):
         while Skill.PLUS_1_ACTION not in self.survivor.unlocked_skills:
             self.survivor.kill_zombie()
-        self.survivor.actions_remaining = 0
-        assert self.survivor.actions_remaining == 1
+        expected_action_count = self.survivor.action_limit
+        for _ in range(expected_action_count):
+            self.survivor.take_action()
         assert self.survivor.actions_remaining == 0
