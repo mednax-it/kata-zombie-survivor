@@ -31,12 +31,8 @@ class Survivor:
         return self.wound_count < WOUND_LIMIT
 
     @property
-    def actions_remaining(self) -> int:
-        return max(self.action_limit - self._actions_taken, 0)
-
-    @actions_remaining.setter
-    def actions_remaining(self, num: int):
-        self._actions_remaining = num
+    def actions_taken(self) -> int:
+        return self._actions_taken
 
     @property
     def action_limit(self) -> int:
@@ -86,11 +82,15 @@ class Survivor:
     def has_space_remaining(self) -> bool:
         return self.space_remaining > 0
 
+    def has_actions_remaining(self) -> bool:
+        return max(self.action_limit - self.actions_taken, 0) > 0
+
     @historian.item_picked_up
     def pick_up(self, item: str):
         if not self.has_space_remaining():
             raise NoSpaceRemainingError
         self._equipment.append(item)
+        self._actions_taken += 1
 
     @historian.wounded
     def wound(self):
@@ -98,6 +98,4 @@ class Survivor:
 
     def kill_zombie(self):
         self._experience += 1
-
-    def take_action(self):
         self._actions_taken += 1

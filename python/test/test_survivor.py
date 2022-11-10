@@ -20,7 +20,6 @@ class TestSurvivor:
         assert self.survivor.name == "Rob Zombie"
         assert self.survivor.wound_count == 0
         assert self.survivor.is_alive()
-        assert self.survivor.actions_remaining == self.survivor.action_limit
         assert self.survivor.space_remaining == EQUIPMENT_LIMIT
         assert self.survivor.experience == 0
         assert self.survivor.level == Level.BLUE
@@ -83,15 +82,19 @@ class TestSurvivor:
         assert Skill.PLUS_1_ACTION == self.survivor.unlocked_skills[0]
 
     def test_additional_action_with_action_skill(self):
-        expected_actions_remaining = self.survivor.actions_remaining + 1
+        expected_action_limit = self.survivor.action_limit + 1
         while Skill.PLUS_1_ACTION not in self.survivor.unlocked_skills:
             self.survivor.kill_zombie()
-        assert expected_actions_remaining == self.survivor.actions_remaining
+        assert expected_action_limit == self.survivor.action_limit
 
     def test_action_skill_handles_no_actions_properly(self):
         while Skill.PLUS_1_ACTION not in self.survivor.unlocked_skills:
             self.survivor.kill_zombie()
-        expected_action_count = self.survivor.action_limit
-        for _ in range(expected_action_count):
-            self.survivor.take_action()
-        assert self.survivor.actions_remaining == 0
+        while self.survivor.has_actions_remaining():
+            self.survivor.kill_zombie()
+        assert not self.survivor.has_actions_remaining()
+
+    def test_killing_zombie_counts_as_action(self):
+        expected_actions_taken = self.survivor.actions_taken + 1
+        self.survivor.kill_zombie()
+        assert expected_actions_taken == self.survivor.actions_taken
