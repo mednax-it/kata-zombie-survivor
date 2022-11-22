@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import List
 
+from decorator import decorator
+
 from zombie_survivor.history import historian
 
 from .level import Level
@@ -19,6 +21,13 @@ class NoSpaceRemainingError(Exception):
     pass
 
 
+@decorator
+def action(func, *args, **kwargs):
+    func(*args, **kwargs)
+    [survivor, *_] = args
+    survivor.actions_taken += 1
+
+
 class Survivor:
     def __init__(self, name: str):
         self.name = name
@@ -33,6 +42,10 @@ class Survivor:
     @property
     def actions_taken(self) -> int:
         return self._actions_taken
+
+    @actions_taken.setter
+    def actions_taken(self, new_count: int):
+        self._actions_taken = new_count
 
     @property
     def action_limit(self) -> int:
@@ -86,16 +99,16 @@ class Survivor:
         return max(self.action_limit - self.actions_taken, 0) > 0
 
     @historian.item_picked_up
+    @action
     def pick_up(self, item: str):
         if not self.has_space_remaining():
             raise NoSpaceRemainingError
         self._equipment.append(item)
-        self._actions_taken += 1
 
     @historian.wounded
     def wound(self):
         self._wound_count += 1
 
+    @action
     def kill_zombie(self):
         self._experience += 1
-        self._actions_taken += 1

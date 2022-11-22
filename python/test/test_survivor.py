@@ -98,3 +98,8 @@ class TestSurvivor:
         expected_actions_taken = self.survivor.actions_taken + 1
         self.survivor.kill_zombie()
         assert expected_actions_taken == self.survivor.actions_taken
+
+    def test_picking_up_counts_as_action(self):
+        expected_actions_taken = self.survivor.actions_taken + 1
+        self.survivor.pick_up(BASEBALL_BAT)
+        assert expected_actions_taken == self.survivor.actions_taken
