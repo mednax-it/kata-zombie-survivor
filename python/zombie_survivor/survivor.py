@@ -25,7 +25,7 @@ class NoSpaceRemainingError(Exception):
 def action(func, *args, **kwargs):
     func(*args, **kwargs)
     [survivor, *_] = args
-    survivor.actions_taken += 1
+    survivor._actions_taken += 1
 
 
 class Survivor:
@@ -42,10 +42,6 @@ class Survivor:
     @property
     def actions_taken(self) -> int:
         return self._actions_taken
-
-    @actions_taken.setter
-    def actions_taken(self, new_count: int):
-        self._actions_taken = new_count
 
     @property
     def action_limit(self) -> int:
