@@ -21,10 +21,16 @@ class NoSpaceRemainingError(Exception):
     pass
 
 
+class NoActionsRemainingError(Exception):
+    pass
+
+
 @decorator
 def action(func, *args, **kwargs):
-    func(*args, **kwargs)
     [survivor, *_] = args
+    if survivor.actions_taken >= ACTION_LIMIT:
+        raise NoActionsRemainingError
+    func(*args, **kwargs)
     survivor._actions_taken += 1
 
 

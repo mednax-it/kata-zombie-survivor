@@ -1,9 +1,11 @@
 import pytest
 from zombie_survivor.level import Level
 from zombie_survivor.survivor import (
-    Skill,
+    ACTION_LIMIT,
     EQUIPMENT_LIMIT,
     NoSpaceRemainingError,
+    NoActionsRemainingError,
+    Skill,
     Survivor,
 )
 
@@ -103,3 +105,9 @@ class TestSurvivor:
         expected_actions_taken = self.survivor.actions_taken + 1
         self.survivor.pick_up(BASEBALL_BAT)
         assert expected_actions_taken == self.survivor.actions_taken
+
+    def test_can_not_exceed_action_limit(self):
+        while self.survivor.actions_taken <= ACTION_LIMIT:
+            self.survivor.pick_up(BASEBALL_BAT)
+        with pytest.raises(NoActionsRemainingError):
+            self.survivor.pick_up(BASEBALL_BAT)
