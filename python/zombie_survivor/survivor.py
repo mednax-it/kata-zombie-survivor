@@ -35,12 +35,12 @@ def action(func, *args, **kwargs):
 
 
 class Survivor:
-    def __init__(self, name: str):
+    def __init__(self, name: str, experience: int = 0, equipment: List[str] = None):
         self.name = name
         self._wound_count = 0
         self._actions_taken = 0
-        self._equipment: List[str] = []
-        self._experience = 0
+        self._equipment: List[str] = [] if equipment is None else equipment
+        self._experience = experience
 
     def is_alive(self) -> bool:
         return self.wound_count < WOUND_LIMIT

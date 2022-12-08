@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 
 from zombie_survivor.game import DuplicateNameError, Game
-from zombie_survivor.level import Level
+from zombie_survivor.level import Level, LevelThreshold
 from zombie_survivor.survivor import Survivor
 
 NOW = datetime.utcnow()
@@ -48,22 +48,17 @@ class TestGame:
         assert self.game.is_finished()
 
     def test_game_level_equals_highest_survivor_level(self):
-        oscar = Survivor("Oscar the Grouch")
-        grover = Survivor("Grover")
+        oscar = Survivor("Oscar the Grouch", experience=LevelThreshold.yellow_min)
+        grover = Survivor("Grover", experience=LevelThreshold.orange_min)
         self.game.add_survivor(oscar)
         self.game.add_survivor(grover)
-        while oscar.level < Level.YELLOW:
-            oscar.kill_zombie()
-        while grover.level < Level.ORANGE:
-            grover.kill_zombie()
         assert self.game.level != oscar.level
         assert self.game.level == grover.level
 
     def test_game_level_maxes_out(self):
-        survivor = Survivor("Godzilla")
+        survivor = Survivor("Godzilla", experience=LevelThreshold.red_min)
         self.game.add_survivor(survivor)
-        while survivor.level < Level.RED:
-            survivor.kill_zombie()
         assert self.game.level == Level.RED
-        survivor.kill_zombie()
+        survivor = Survivor("Mothra", experience=LevelThreshold.red_min + 50000)
+        self.game.add_survivor(survivor)
         assert self.game.level == Level.RED

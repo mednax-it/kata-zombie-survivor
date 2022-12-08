@@ -1,5 +1,5 @@
 import pytest
-from zombie_survivor.level import Level
+from zombie_survivor.level import Level, LevelThreshold
 from zombie_survivor.survivor import (
     ACTION_LIMIT,
     EQUIPMENT_LIMIT,
@@ -34,10 +34,12 @@ class TestSurvivor:
         assert self.survivor.space_remaining == expected_space_remaining
 
     def test_can_not_pick_up_too_much_equipment(self):
+        initial_equipment = []
         for _ in range(EQUIPMENT_LIMIT):
-            self.survivor.pick_up(BASEBALL_BAT)
+            initial_equipment.append(BASEBALL_BAT)
+        survivor = Survivor("Keyser Soze", equipment=initial_equipment)
         with pytest.raises(NoSpaceRemainingError):
-            self.survivor.pick_up(BASEBALL_BAT)
+            survivor.pick_up(BASEBALL_BAT)
 
     def test_can_be_wounded(self):
         expected_wound_count = self.survivor.wound_count + 1
@@ -55,46 +57,47 @@ class TestSurvivor:
         assert self.survivor.experience == expected_experience
 
     @pytest.mark.parametrize(
-        ["zombies_killed", "expected_level"],
+        ["experience", "expected_level"],
         [
-            *[(kill_count, Level.BLUE) for kill_count in range(0, 7)],
-            *[(kill_count, Level.YELLOW) for kill_count in range(7, 19)],
-            *[(kill_count, Level.ORANGE) for kill_count in range(19, 43)],
-            (43, Level.RED),
+            *[
+                (experience, Level.BLUE)
+                for experience in range(
+                    LevelThreshold.blue_min, LevelThreshold.yellow_min
+                )
+            ],
+            *[
+                (experience, Level.YELLOW)
+                for experience in range(
+                    LevelThreshold.yellow_min, LevelThreshold.orange_min
+                )
+            ],
+            *[
+                (experience, Level.ORANGE)
+                for experience in range(
+                    LevelThreshold.orange_min, LevelThreshold.red_min
+                )
+            ],
+            (LevelThreshold.red_min, Level.RED),
         ],
     )
-    def test_experience_progression_matches_expected(
-        self, zombies_killed, expected_level
-    ):
-        for _ in range(zombies_killed):
-            self.survivor.kill_zombie()
-
-        assert self.survivor.level == expected_level
+    def test_experience_progression_matches_expected(self, experience, expected_level):
+        survivor = Survivor("test", experience=experience)
+        assert survivor.level == expected_level
 
     def test_one_potential_skill_at_level_yellow(self):
-        while self.survivor.level != Level.YELLOW:
-            self.survivor.kill_zombie()
-        assert len(self.survivor.potential_skills) == 1
-        assert Skill.PLUS_1_ACTION == self.survivor.potential_skills[0]
+        survivor = Survivor("Darth Vader", experience=LevelThreshold.yellow_min)
+        assert len(survivor.potential_skills) == 1
+        assert Skill.PLUS_1_ACTION == survivor.potential_skills[0]
 
     def test_one_unlocked_skill_at_level_yellow(self):
-        while self.survivor.level != Level.YELLOW:
-            self.survivor.kill_zombie()
-        assert len(self.survivor.unlocked_skills) == 1
-        assert Skill.PLUS_1_ACTION == self.survivor.unlocked_skills[0]
+        survivor = Survivor("Darth Vader", experience=LevelThreshold.yellow_min)
+        assert len(survivor.unlocked_skills) == 1
+        assert Skill.PLUS_1_ACTION == survivor.unlocked_skills[0]
 
     def test_additional_action_with_action_skill(self):
-        expected_action_limit = self.survivor.action_limit + 1
-        while Skill.PLUS_1_ACTION not in self.survivor.unlocked_skills:
-            self.survivor.kill_zombie()
-        assert expected_action_limit == self.survivor.action_limit
-
-    def test_action_skill_handles_no_actions_properly(self):
-        while Skill.PLUS_1_ACTION not in self.survivor.unlocked_skills:
-            self.survivor.kill_zombie()
-        while self.survivor.has_actions_remaining():
-            self.survivor.kill_zombie()
-        assert not self.survivor.has_actions_remaining()
+        survivor = Survivor("Marty McFly", experience=LevelThreshold.yellow_min)
+        expected_action_limit = ACTION_LIMIT + 1
+        assert expected_action_limit == survivor.action_limit
 
     def test_killing_zombie_counts_as_action(self):
         expected_actions_taken = self.survivor.actions_taken + 1
@@ -107,7 +110,7 @@ class TestSurvivor:
         assert expected_actions_taken == self.survivor.actions_taken
 
     def test_can_not_exceed_action_limit(self):
-        while self.survivor.actions_taken <= ACTION_LIMIT:
+        while self.survivor.has_actions_remaining():
             self.survivor.pick_up(BASEBALL_BAT)
         with pytest.raises(NoActionsRemainingError):
             self.survivor.pick_up(BASEBALL_BAT)

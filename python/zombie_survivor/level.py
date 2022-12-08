@@ -28,3 +28,10 @@ class Level(OrderedEnum):
     YELLOW = 2
     ORANGE = 3
     RED = 4
+
+
+class LevelThreshold:
+    blue_min = 0
+    yellow_min = 7
+    orange_min = 19
+    red_min = 43
